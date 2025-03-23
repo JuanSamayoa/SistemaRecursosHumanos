@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# SQL Server Management Studio Solution File, Format Version 20.00
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SistemaRecursosHumanos", "SistemaRecursosHumanos", "{56C1AB30-4A47-4FF4-B095-20FE99F81D48}"
+	ProjectSection(SolutionItems) = preProject
+		Recursos Humanos.sql = Recursos Humanos.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Default = Default|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F02D9F4B-93EA-4A5D-9A99-DE56FCAA7256}.Default|Default.ActiveCfg = Default
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80C0DB44-0C14-4669-AA56-7D9262B0E37C}
+	EndGlobalSection
+EndGlobal
