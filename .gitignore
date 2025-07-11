@@ -1,53 +1,98 @@
-# Archivos de configuración sensible
+# ==========================================
+# SISTEMA DE RECURSOS HUMANOS - GITIGNORE
+# ==========================================
+
+# Archivos de configuración sensible y credenciales
 .env
 *.env
 .env.local
 .env.production
-
-# Archivos de IDE
-*.iml
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# NetBeans private configurations
-nbproject/private/
-private.properties
-build.xml~
+config.properties
+database.properties
+credentials.txt
 
 # Archivos compilados Java
 *.class
 *.jar
 *.war
 *.ear
+*.zip
+*.tar.gz
+
+# Directorios de build y distribución
 build/
 dist/
 target/
 out/
+nbdist/
+nbbuild/
+
+# NetBeans configuraciones privadas
+nbproject/private/
+nbproject/private.properties
+nbproject/private.xml
+build.xml~
+
+# IDEs y editores
+*.iml
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
 # Archivos de sistema
 .DS_Store
 Thumbs.db
-*.db
+Desktop.ini
 
 # Logs y debugging
 *.log
 logs/
 debug.log
+error.log
+application.log
 
 # Archivos temporales y backup
 *.tmp
 *.temp
-*~
 *.bak
 *.backup
+*.old
+*.orig
 
-# SQL Server private files
+# Base de datos locales
+*.db
+*.sqlite
+*.sqlite3
 *.ldf
 *.mdf
 
-# JetBrains IDEs (IntelliJ, etc.)
+# Archivos de test y coverage
+test-results/
+coverage/
+*.coverage
+
+# Archivos de documentación generada
+javadoc/
+docs/build/
+
+# Configuración específica del desarrollador
+.settings/
+.project
+.classpath
+
+# Archivos de Maven (si se usa en el futuro)
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Archivos de Gradle (si se usa en el futuro)
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
 .idea/workspace.xml
 .idea/dataSources.local.xml
 .idea/dataSources/

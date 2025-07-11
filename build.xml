@@ -1,73 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="ProyectoFinal" default="default" basedir=".">
-    <description>Builds, tests, and runs the project ProyectoFinal.</description>
+<!-- 
+    Sistema de Recursos Humanos - Build Configuration
+    
+    Este archivo build.xml maneja la compilación, empaquetado y distribución
+    del Sistema de Recursos Humanos usando Apache Ant.
+    
+    Comandos principales:
+    - ant clean: Limpia archivos compilados
+    - ant compile: Compila el proyecto
+    - ant jar: Crea el archivo JAR ejecutable
+    - ant run: Ejecuta la aplicación
+    - ant test: Ejecuta las pruebas unitarias
+    - ant dist: Genera la distribución completa
+-->
+<project name="SistemaRecursosHumanos" default="jar" basedir=".">
+    
+    <!-- Descripción del proyecto -->
+    <description>
+        Sistema de Gestión de Recursos Humanos
+        Desarrollado por: Juan Samayoa
+        Maneja empleados, usuarios, contrataciones, reportes y auditoría.
+    </description>
+    
+    <!-- Importa las configuraciones base de NetBeans -->
     <import file="nbproject/build-impl.xml"/>
-    <!--
+    
+    <!-- ========================================== -->
+    <!-- CUSTOM PROPERTIES -->
+    <!-- ========================================== -->
+    
+    <!-- Configuración para JAR ejecutable -->
+    <target name="-post-jar">
+        <echo message="Creando JAR ejecutable con dependencias..."/>
+        <jar destfile="${dist.dir}/SistemaRecursosHumanos-standalone.jar">
+            <manifest>
+                <attribute name="Main-Class" value="ProyectoFinal.forms.LoginForm"/>
+                <attribute name="Class-Path" value="lib/mssql-jdbc-12.8.1.jre11.jar lib/mysql-connector-j-9.1.0.jar"/>
+                <attribute name="Implementation-Title" value="Sistema de Recursos Humanos"/>
+                <attribute name="Implementation-Version" value="2.0.0"/>
+                <attribute name="Implementation-Vendor" value="Juan Samayoa"/>
+                <attribute name="Built-By" value="Juan Samayoa"/>
+                <attribute name="Built-Date" value="${TODAY}"/>
+            </manifest>
+            <fileset dir="${build.classes.dir}"/>
+        </jar>
+        <echo message="JAR ejecutable creado: ${dist.dir}/SistemaRecursosHumanos-standalone.jar"/>
+    </target>
+    
+    <!-- Validación de dependencias antes de compilar -->
+    <target name="-pre-compile">
+        <echo message="Validando dependencias..."/>
+        <available file="lib/mssql-jdbc-12.8.1.jre11.jar" property="mssql.present"/>
+        <available file="lib/mysql-connector-j-9.1.0.jar" property="mysql.present"/>
+        
+        <fail unless="mssql.present" 
+              message="Error: Dependencia faltante - lib/mssql-jdbc-12.8.1.jre11.jar"/>
+        <fail unless="mysql.present" 
+              message="Error: Dependencia faltante - lib/mysql-connector-j-9.1.0.jar"/>
+        
+        <echo message="✓ Todas las dependencias están presentes"/>
+    </target>
+    
+    <!-- Limpieza personalizada -->
+    <target name="-post-clean">
+        <echo message="Realizando limpieza adicional..."/>
+        <delete quiet="true">
+            <fileset dir="." includes="**/*.log"/>
+            <fileset dir="." includes="**/*.tmp"/>
+            <fileset dir="." includes="**/*~"/>
+        </delete>
+        <echo message="✓ Limpieza completada"/>
+    </target>
+    
+    <!-- Target personalizado para distribución -->
+    <target name="dist" depends="jar" description="Crea distribución completa">
+        <echo message="Creando distribución completa..."/>
+        
+        <!-- Crear directorio de distribución -->
+        <mkdir dir="${dist.dir}/SistemaRecursosHumanos"/>
+        
+        <!-- Copiar JAR principal -->
+        <copy file="${dist.jar}" todir="${dist.dir}/SistemaRecursosHumanos"/>
+        
+        <!-- Copiar dependencias -->
+        <copy todir="${dist.dir}/SistemaRecursosHumanos/lib">
+            <fileset dir="lib" includes="*.jar"/>
+        </copy>
+        
+        <!-- Copiar documentación -->
+        <copy todir="${dist.dir}/SistemaRecursosHumanos/docs">
+            <fileset dir="Documentacion" includes="*.pdf"/>
+        </copy>
+        
+        <!-- Copiar scripts SQL -->
+        <copy todir="${dist.dir}/SistemaRecursosHumanos/sql">
+            <fileset dir="SQL" includes="*.sql"/>
+        </copy>
+        
+        <!-- Copiar README -->
+        <copy file="README.md" todir="${dist.dir}/SistemaRecursosHumanos"/>
+        
+        <echo message="✓ Distribución creada en: ${dist.dir}/SistemaRecursosHumanos"/>
+    </target>
+    
+    <!-- Verificación del sistema antes de ejecutar -->
+    <target name="-pre-run">
+        <echo message="Verificando configuración del sistema..."/>
+        <echo message="Java Version: ${java.version}"/>
+        <echo message="OS: ${os.name} ${os.version}"/>
+        <echo message="Usuario: ${user.name}"/>
+        <echo message="Directorio de trabajo: ${user.dir}"/>
+    </target>
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
-
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
-
-    (Targets beginning with '-' are not intended to be called on their own.)
-
-    Example of inserting an obfuscator after compilation could look like this:
-
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
-
-
-    Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
-
-      -init-macrodef-javac:     defines macro for javac compilation
-      -init-macrodef-junit:     defines macro for junit execution
-      -init-macrodef-debug:     defines macro for class debugging
-      -init-macrodef-java:      defines macro for class execution
-      -do-jar:                  JAR building
-      run:                      execution of project 
-      -javadoc-build:           Javadoc generation
-      test-report:              JUnit report generation
-
-    An example of overriding the target for project execution could look like this:
-
-        <target name="run" depends="ProyectoFinal-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
-
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
-    properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
-
-    -->
 </project>

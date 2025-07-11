@@ -1,3 +1,13 @@
 Manifest-Version: 1.0
-X-COMMENT: Main-Class will be added automatically by build
+Implementation-Title: Sistema de Recursos Humanos
+Implementation-Version: 1.0.0
+Implementation-Vendor: Juan Samayoa
+Specification-Title: Sistema de Gestión de Recursos Humanos
+Specification-Version: 1.0
+Specification-Vendor: Juan Samayoa
+Main-Class: ProyectoFinal.forms.LoginForm
+Class-Path: lib/mssql-jdbc-12.8.1.jre11.jar lib/mysql-connector-j-9.1.0.jar
+Created-By: Juan Samayoa
+Built-JDK: ${java.version}
+Author: Juan Samayoa
 

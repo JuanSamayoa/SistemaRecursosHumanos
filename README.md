@@ -325,4 +325,4 @@ Para reportar bugs o solicitar nuevas funcionalidades, usar el sistema de **Issu
 
 ---
 
-**Desarrollado con ❤️ por Juan Samayoa** | Sistema de Recursos Humanos Empresarial
+**Desarrollado por Juan Samayoa** | Sistema de Recursos Humanos Empresarial
