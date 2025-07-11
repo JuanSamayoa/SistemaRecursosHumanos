@@ -1,0 +1,59 @@
+# Archivos de configuración sensible
+.env
+*.env
+.env.local
+.env.production
+
+# Archivos de IDE
+*.iml
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# NetBeans private configurations
+nbproject/private/
+private.properties
+build.xml~
+
+# Archivos compilados Java
+*.class
+*.jar
+*.war
+*.ear
+build/
+dist/
+target/
+out/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+*.db
+
+# Logs y debugging
+*.log
+logs/
+debug.log
+
+# Archivos temporales y backup
+*.tmp
+*.temp
+*~
+*.bak
+*.backup
+
+# SQL Server private files
+*.ldf
+*.mdf
+
+# JetBrains IDEs (IntelliJ, etc.)
+.idea/workspace.xml
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
+# OS generated files
+.directory
+.gdb_history
