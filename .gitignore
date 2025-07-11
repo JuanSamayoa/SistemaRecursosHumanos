@@ -102,3 +102,4 @@ gradle-app.setting
 # OS generated files
 .directory
 .gdb_history
+nbproject/genfiles.properties
