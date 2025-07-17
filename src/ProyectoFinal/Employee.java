@@ -479,43 +479,63 @@ public class Employee extends Person {
         return getVacationInformation(0);
     }
 
-    // Additional methods for form compatibility
-    public static void obtenerTodosLosEmpleados() {
+    // ================================
+    // 4. SEARCH METHODS
+    // ================================
+
+    /**
+     * Finds employees by name (partial match)
+     */
+    public static ArrayList<Employee> findByName(String name) {
         getAll();
+        ArrayList<Employee> result = new ArrayList<>();
+        
+        String searchTerm = Utils.cleanText(name).toLowerCase();
+        
+        for (Employee employee : employees) {
+            String fullName = (employee.getName() + " " + employee.getLastName()).toLowerCase();
+            if (fullName.contains(searchTerm)) {
+                result.add(employee);
+            }
+        }
+        
+        return result;
     }
 
-    public static Employee getInformacionEmpleado(int id) {
-        return getEmployeeInformation(id);
+    /**
+     * Finds employees by department
+     */
+    public static ArrayList<Employee> findByDepartment(String department) {
+        getAll();
+        ArrayList<Employee> result = new ArrayList<>();
+        
+        String searchDept = Utils.cleanText(department).toLowerCase();
+        
+        for (Employee employee : employees) {
+            if (employee.getDepartment().toLowerCase().contains(searchDept)) {
+                result.add(employee);
+            }
+        }
+        
+        return result;
     }
 
-    // Alias methods for compatibility with forms
-    public String getNombre() {
-        return getName();
-    }
-
-    public String getApellido() {
-        return getLastName();
-    }
-
-    public String getCargo() {
-        return getPosition();
-    }
-
-    public String getDepartamento() {
-        return getDepartment();
-    }
-
-    public String getFechaContratacion() {
-        return getHiringDate();
-    }
-
-    public int getIdEmpleado() {
-        return getId();
-    }
-
-    // Method for modifying employee information (for form compatibility)
-    public boolean modificarInformacionEmpleado(int id, String name, String lastName, String hiringDate, String position, double salary, String department) {
-        return Employee.update(id, name, lastName, hiringDate, position, salary, department);
+    /**
+     * Finds employees by position
+     */
+    public static ArrayList<Employee> findByPosition(String position) {
+        getAll();
+        ArrayList<Employee> result = new ArrayList<>();
+        
+        String searchPos = Utils.cleanText(position).toLowerCase();
+        
+        for (Employee employee : employees) {
+            if (employee.getPosition().toLowerCase().contains(searchPos)) {
+                result.add(employee);
+            }
+        }
+        
+        return result;
     }
 
     // ================================

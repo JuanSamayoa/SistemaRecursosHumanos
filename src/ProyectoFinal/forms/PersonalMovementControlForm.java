@@ -359,7 +359,7 @@ public class PersonalMovementControlForm extends javax.swing.JFrame {
 
     private void LoadRecentMovementsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadRecentMovementsButtonActionPerformed
         //Obtener acciones recientes
-        ArrayList<PersonalMovement> movimientos = PersonalMovement.consultarMovimientosEmpleado(idEncontrado);
+        ArrayList<PersonalMovement> movimientos = PersonalMovement.getEmployeeMovements(idEncontrado);
 
         if(movimientos == null || movimientos.isEmpty()){
             JOptionPane.showMessageDialog(this,
@@ -379,10 +379,10 @@ public class PersonalMovementControlForm extends javax.swing.JFrame {
         for (PersonalMovement movimiento : movimientos) {
             //Crear un arreglo de objetos para agregar a la tabla
             Object[] row = new Object[4];
-            row[0] = movimiento.getIdMovimiento();
-            row[1] = movimiento.getTipoMovimiento();
-            row[2] = movimiento.getFechaMovimiento();
-            row[3] = movimiento.getDetalle();
+            row[0] = movimiento.getId();
+            row[1] = movimiento.getMovementType();
+            row[2] = movimiento.getMovementDate();
+            row[3] = movimiento.getDetail();
             model.addRow(row);
         }
 
@@ -481,8 +481,11 @@ public class PersonalMovementControlForm extends javax.swing.JFrame {
             System.out.println(nuevoSalario);
             
             //Crear un nuevo movimiento
-            boolean exito = PersonalMovement.registrarMovimiento(idEmpleado, tipoMovimiento, fecha, "Movimiento de empleado a " + nuevoPuesto + " en " + departamento);
-            boolean exito2 = emp.modificarInformacionEmpleado(idEmpleado, emp.getNombre(), emp.getApellido(), emp.getFechaContratacion(), nuevoPuesto, nuevoSalario, departamento);
+            boolean exito = PersonalMovement.add(idEmpleado, tipoMovimiento, fecha, "Movimiento de empleado a " + nuevoPuesto + " en " + departamento);
+            
+            // Convert hiring date from ISO format to dd/MM/yyyy format for Employee.update()
+            String hiringDateFormatted = ProyectoFinal.Utils.convertToStandardDate(emp.getHiringDate());
+            boolean exito2 = Employee.update(idEmpleado, emp.getName(), emp.getLastName(), hiringDateFormatted, nuevoPuesto, nuevoSalario, departamento);
             if(exito && exito2){
                 JOptionPane.showMessageDialog(this,
                         "El movimiento se ha registrado con éxito",

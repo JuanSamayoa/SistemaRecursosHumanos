@@ -1,7 +1,21 @@
 # Sistema de Recursos Humanos
 
 ## Descripción
-El **Sistema de Recursos Humanos** es una aplicación empresarial robusta diseñada para la gestión integral del capital humano en organizaciones. Desarrollado con arquitectura limpia y siguiendo principios SOLID, DRY, KISS y YAGNI, el sistema proporciona una solución completa para la administración de empleados, contrataciones, movimientos de personal y generación de reportes estratégicos.
+El### Tecnologías y Herramientas
+
+### Backend
+- **Java 11+** - Lenguaje principal de desarrollo
+- **JDBC** - Conectividad con base de datos SQL Server
+- **Microsoft SQL Server** - Sistema de ### Características Técnicas
+
+### Arquitectura de Software
+- **Arquitectura en capas** - Separación clara de responsabilidades
+- **Clean Code** - Código legible y mantenible siguiendo principios SOLID, DRY, KISS y YAGNI
+- **Principios SOLID** - Diseño orientado a objetos robusto
+- **Patrón Template Method** - Para sistema de reportes flexible
+- **Interface segregation** - Para acciones de usuario especializadasde base de datos principal
+- **MySQL** - Soporte opcional para base de datos alternativa
+- **Arquitectura en capas** - Separación de responsabilidadesema de Recursos Humanos** es una aplicación empresarial robusta diseñada para la gestión integral del capital humano en organizaciones. Desarrollado con arquitectura limpia y siguiendo principios SOLID, DRY, KISS y YAGNI, el sistema proporciona una solución completa para la administración de empleados, contrataciones, movimientos de personal y generación de reportes estratégicos.
 
 ### Características de la Arquitectura
 - **Código limpio y mantenible** con principios de Clean Code
@@ -77,30 +91,38 @@ El **Sistema de Recursos Humanos** es una aplicación empresarial robusta diseñ
 ```
 SistemaRecursosHumanos/
 ├── src/ProyectoFinal/
-│   ├── models/
-│   │   ├── Person.java                    # Clase base para personas
-│   │   ├── Employee.java                  # Gestión de empleados
-│   │   ├── User.java                      # Sistema de usuarios
-│   │   ├── Hiring.java                    # Gestión de contrataciones
-│   │   ├── PersonalActions.java           # Acciones del personal
-│   │   └── PersonalMovement.java          # Movimientos de personal
-│   ├── reports/
-│   │   ├── Report.java                    # Clase abstracta base
-│   │   ├── RecentHiringsReport.java       # Reportes de contrataciones
-│   │   ├── PersonalMovementsReport.java   # Reportes de movimientos
-│   │   ├── PersonalActionsReport.java     # Reportes de acciones
-│   │   └── DepartmentReport.java          # Reportes por departamento
-│   ├── services/
-│   │   ├── DatabaseManager.java           # Gestión de conexiones BD
-│   │   ├── ConfigurationSystem.java       # Sistema de configuración
-│   │   └── PasswordSecurity.java          # Seguridad de contraseñas
-│   ├── utils/
-│   │   ├── Utils.java                     # Utilidades generales
-│   │   └── UserActions.java               # Acciones de usuario
+│   ├── Person.java                        # Clase base para personas
+│   ├── Employee.java                      # Gestión de empleados
+│   ├── User.java                          # Sistema de usuarios
+│   ├── Hiring.java                        # Gestión de contrataciones
+│   ├── PersonalActions.java               # Acciones del personal
+│   ├── PersonalMovement.java              # Movimientos de personal
+│   ├── Report.java                        # Clase abstracta para reportes
+│   ├── RecentHiringsReport.java           # Reportes de contrataciones
+│   ├── PersonalMovementsReport.java       # Reportes de movimientos
+│   ├── PersonalActionsReport.java         # Reportes de acciones
+│   ├── DepartmentReport.java              # Reportes por departamento
+│   ├── DatabaseManager.java               # Gestión de conexiones BD
+│   ├── ConfigurationSystem.java           # Sistema de configuración
+│   ├── PasswordSecurity.java              # Seguridad de contraseñas
+│   ├── Utils.java                         # Utilidades generales
+│   ├── UserActions.java                   # Interface de acciones de usuario
 │   └── forms/                             # Interfaces de usuario (11 formularios)
+│       ├── LoginForm.java                 # Formulario de inicio de sesión
+│       ├── MainMenuForm.java              # Menú principal
+│       ├── PersonalManagementForm.java    # Gestión de empleados
+│       ├── HiringStaffForm.java           # Contratación de personal
+│       ├── PersonalActionControlForm.java # Control de acciones
+│       ├── PersonalMovementControlForm.java # Control de movimientos
+│       ├── UserManagementForm.java        # Gestión de usuarios
+│       └── [otros formularios]            # Formularios de reportes
 ├── SQL/
 │   └── Recursos Humanos.sql               # Esquema de base de datos
-├── lib/                                   # Librerías externas
+├── lib/                                   # Librerías JDBC
+│   ├── mssql-jdbc-12.8.1.jre11.jar      # Driver SQL Server
+│   └── mysql-connector-j-9.1.0.jar       # Driver MySQL (opcional)
+├── build/                                 # Archivos compilados
+├── dist/                                  # Distribución JAR
 ├── .env                                   # Configuración de entorno
 └── README.md
 ```
@@ -141,26 +163,34 @@ DB_ENCRYPT_KEY=tu_clave_de_32_caracteres
 #### 4. Generar Contraseña Cifrada
 Usar la utilidad incluida para cifrar contraseñas:
 ```bash
-javac -cp "lib/*" src/ProyectoFinal/PasswordSecurity.java
-java -cp "src:lib/*" ProyectoFinal.PasswordSecurity encrypt tu_contraseña tu_clave_de_32_caracteres
+# Compilar la utilidad de seguridad
+javac -cp "lib/*" -d build/classes src/ProyectoFinal/PasswordSecurity.java
+
+# Cifrar contraseña
+java -cp "lib/*;build/classes" ProyectoFinal.PasswordSecurity encrypt tu_contraseña tu_clave_de_32_caracteres
 ```
 
 #### 5. Compilar el Proyecto
 ```bash
-# Desde el directorio raíz
-javac -cp "lib/*" src/ProyectoFinal/*.java src/ProyectoFinal/forms/*.java
+# Desde el directorio raíz del proyecto
+javac -cp "lib/*" -d build/classes src/ProyectoFinal/*.java src/ProyectoFinal/forms/*.java
 ```
 
 #### 6. Ejecutar la Aplicación
 ```bash
-java -cp "src:lib/*" ProyectoFinal.forms.LoginForm
+# Opción 1: Desde clases compiladas
+java -cp "lib/*;build/classes" ProyectoFinal.forms.LoginForm
+
+# Opción 2: Desde JAR (si existe)
+java -jar dist/SistemaRecursosHumanos.jar
 ```
 
 ### Configuración en NetBeans
 1. **Abrir** NetBeans IDE
-2. **Importar** el proyecto existente
-3. **Configurar** las librerías en el classpath
-4. **Ejecutar** desde `LoginForm.java`
+2. **Importar** el proyecto existente (File → Open Project)
+3. **Configurar** las librerías JDBC en el classpath del proyecto
+4. **Configurar** el archivo `.env` con las credenciales de base de datos
+5. **Ejecutar** desde `LoginForm.java` (clic derecho → Run File)
 
 ## Guía de Uso
 
@@ -236,10 +266,11 @@ java -cp "src:lib/*" ProyectoFinal.forms.LoginForm
 - **Validación robusta** - En todas las entradas de datos
 
 ### Optimizaciones
-- **Conexiones pooled** - Gestión eficiente de base de datos
-- **Caching** - Para consultas frecuentes
-- **Validación en tiempo real** - Mejor experiencia de usuario
-- **Manejo de errores** - Recuperación automática
+- **Gestión optimizada de conexiones** - Pool de conexiones para base de datos
+- **Métodos CRUD estandarizados** - add(), update(), delete(), getAll(), getNextId()
+- **Validación robusta** - En todas las entradas de datos con retroalimentación inmediata
+- **Manejo de errores** - Try-catch exhaustivo con recuperación automática
+- **Conversión de formatos** - Fechas entre formato guatemalteco (dd/MM/yyyy) e ISO (yyyy-MM-dd)
 
 ## Resolución de Problemas
 
@@ -294,9 +325,9 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo `LICENSE` para más
 
 ## Contacto y Soporte
 - **Desarrollador:** Juan Samayoa
-- **Email:** [tu-email@ejemplo.com]
+- **Correo electrónico:** [juancho1705@gmail.com](mailto:juancho1705@gmail.com)
 - **GitHub:** [@JuanSamayoa](https://github.com/JuanSamayoa)
-- **LinkedIn:** [Tu Perfil de LinkedIn]
+- **LinkedIn:** [linkedin.com/in/juansamayoa](https://linkedin.com/in/juansamayoa)
 
 ### Reportar Issues
 Para reportar bugs o solicitar nuevas funcionalidades, usar el sistema de **Issues** de GitHub con las siguientes etiquetas:
@@ -310,12 +341,14 @@ Para reportar bugs o solicitar nuevas funcionalidades, usar el sistema de **Issu
 ## Historial de Versiones
 
 ### v2.0.0 (Actual) - Julio 2025
-- ✅ Refactorización completa con Clean Code
+- ✅ Refactorización completa con Clean Code y principios SOLID, DRY, KISS, YAGNI
 - ✅ Implementación de seguridad robusta (AES-256 + SHA-256)
-- ✅ Sistema de reportes flexible con filtrado opcional
-- ✅ Arquitectura limpia con principios SOLID
+- ✅ Sistema de reportes flexible con filtrado opcional de fechas
+- ✅ Métodos CRUD estandarizados en inglés (add, update, delete, getAll, getNextId)
 - ✅ Validaciones exhaustivas y manejo de errores mejorado
 - ✅ Optimización de base de datos y consultas SQL
+- ✅ Conversión automática de formatos de fecha (guatemalteco ↔ ISO)
+- ✅ Interface UserActions para operaciones de usuario especializadas
 
 ### v1.0.0 - Versión Inicial
 - Sistema básico de gestión de recursos humanos
@@ -325,4 +358,4 @@ Para reportar bugs o solicitar nuevas funcionalidades, usar el sistema de **Issu
 
 ---
 
-**Desarrollado por Juan Samayoa** | Sistema de Recursos Humanos Empresarial
+**Desarrollado por Juan Samayoa (Carné: 9390-23-2010)** | Sistema de Recursos Humanos Empresarial | Programación II

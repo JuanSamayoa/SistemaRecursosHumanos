@@ -109,14 +109,16 @@ public class Hiring {
         return maxId + 1;
     }
 
-    // Method to get active contracts
-    public static ArrayList<Hiring> obtenerContratosActivos(){
-        ArrayList<Hiring> contratos = new ArrayList<>();
-        Connection conexion = null;
+    /**
+     * Gets all active contracts from database
+     */
+    public static ArrayList<Hiring> getActiveContracts(){
+        ArrayList<Hiring> contracts = new ArrayList<>();
+        Connection connection = null;
 
         try {
-            conexion = DatabaseManager.getConnection();
-            ps = conexion.prepareStatement(
+            connection = DatabaseManager.getConnection();
+            ps = connection.prepareStatement(
                 "SELECT c.id, c.idEmpleado, c.fechaInicio, tc.tipo AS tipoContrato, c.duracionContrato, c.salario " +
                 "FROM RecursosHumanos.Contratacion c " +
                 "JOIN RecursosHumanos.Cat_TipoContrato tc ON c.tipoContrato = tc.id " +
@@ -127,16 +129,16 @@ public class Hiring {
 
             while(rs.next()){
                 int id = rs.getInt("id");
-                int idEmp = rs.getInt("idEmpleado");
-                String fechaBD = rs.getString("fechaInicio");
-                String tipo = rs.getString("tipoContrato");
-                int duracion = rs.getInt("duracionContrato");
-                double salario = rs.getDouble("salario");
+                int employeeId = rs.getInt("idEmpleado");
+                String startDateDB = rs.getString("fechaInicio");
+                String contractType = rs.getString("tipoContrato");
+                int duration = rs.getInt("duracionContrato");
+                double salary = rs.getDouble("salario");
 
-                String fechaFormatted = Utils.convertToStandardDate(fechaBD);
+                String formattedDate = Utils.convertToStandardDate(startDateDB);
 
-                Hiring contrato = new Hiring(id, idEmp, fechaFormatted, tipo, duracion, salario);
-                contratos.add(contrato);
+                Hiring contract = new Hiring(id, employeeId, formattedDate, contractType, duration, salary);
+                contracts.add(contract);
             }
 
         } catch (Exception e) {
@@ -145,13 +147,13 @@ public class Hiring {
             try {
                 if (rs != null) rs.close();
                 if (ps != null) ps.close();
-                if (conexion != null) conexion.close();
+                if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error closing resources: " + e.getMessage());
             }
         }
 
-        return contratos;
+        return contracts;
     }
 
     public static int getContractIdByString(String contractType) {
@@ -167,13 +169,18 @@ public class Hiring {
         };
     }
 
-    // Additional methods for form compatibility
-    public static boolean agregarContrato(int employeeId, String startDate, String contractType, int contractDuration, double salary) {
+    /**
+     * Adds a new contract to the database
+     */
+    public static boolean addContract(int employeeId, String startDate, String contractType, int contractDuration, double salary) {
         Hiring hiring = new Hiring();
         return hiring.add(employeeId, startDate, contractType, contractDuration, salary);
     }
 
-    public static boolean modificarContrato(int contractId, int employeeId, String startDate, String contractType, int contractDuration, double salary) {
+    /**
+     * Updates an existing contract in the database
+     */
+    public static boolean updateContract(int contractId, int employeeId, String startDate, String contractType, int contractDuration, double salary) {
         try (Connection conn = DatabaseManager.getConnection()) {
             int contractTypeId = getContractIdByString(contractType);
             if (contractTypeId == -1) {
@@ -293,9 +300,5 @@ public class Hiring {
 
     public void setSalary(double salary) {
         this.salary = salary;
-    }
-
-    public static ArrayList<Hiring> getActiveContracts() {
-        return activeContracts;
     }
 }

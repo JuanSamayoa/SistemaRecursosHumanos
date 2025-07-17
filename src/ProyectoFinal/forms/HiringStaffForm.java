@@ -481,11 +481,11 @@ public class HiringStaffForm extends javax.swing.JFrame {
 
     private void SearchEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchEmployeeButtonActionPerformed
         if(Employee.getEmployees() == null || Employee.getEmployees().isEmpty()){
-        Employee.obtenerTodosLosEmpleados();
+        Employee.getAll();
         }
         // Buscar empleado por id
         int idEmpleado = Integer.parseInt(EmployeeIdTxt.getText());
-        Employee empleado = Employee.getInformacionEmpleado(idEmpleado);
+        Employee empleado = Employee.getEmployeeInformation(idEmpleado);
         if (empleado == null){
             JOptionPane.showMessageDialog(this,
                 "No se encontró el empleado con ese ID.",
@@ -503,11 +503,11 @@ public class HiringStaffForm extends javax.swing.JFrame {
             UndoSelectionButton.setEnabled(false);
             return;
         }
-        EmployeeNameTxt.setText(empleado.getNombre());
-        EmployeeLastNameTxt.setText(empleado.getApellido());
-        EmployeePositionTxt.setText(empleado.getCargo());
+        EmployeeNameTxt.setText(empleado.getName());
+        EmployeeLastNameTxt.setText(empleado.getLastName());
+        EmployeePositionTxt.setText(empleado.getPosition());
         EmployeeSalaryTxt.setText("Q" + empleado.getSalary());
-        switch(empleado.getDepartamento().toLowerCase()){
+        switch(empleado.getDepartment().toLowerCase()){
                 case "dirección ejecutiva" -> DepartmentComboBox.setSelectedIndex(1);
                 case "secretaría" -> DepartmentComboBox.setSelectedIndex(2);
                 case "unidad de auditoría interna" -> DepartmentComboBox.setSelectedIndex(3);
@@ -543,7 +543,7 @@ public class HiringStaffForm extends javax.swing.JFrame {
         }
         
         Employee empleado = null;
-        empleado = Employee.getInformacionEmpleado(Integer.parseInt(EmployeeIdTxt.getText()));
+        empleado = Employee.getEmployeeInformation(Integer.parseInt(EmployeeIdTxt.getText()));
         if (empleado == null){
             JOptionPane.showMessageDialog(this,
                 "Debe buscar un Empleado válido antes de iniciar un contrato.",
@@ -617,7 +617,7 @@ public class HiringStaffForm extends javax.swing.JFrame {
                 return;
             }
             
-            boolean contrato = Hiring.agregarContrato(idEmpleado, fechaInicio, tipoContrato, duracion, salario);
+            boolean contrato = Hiring.addContract(idEmpleado, fechaInicio, tipoContrato, duracion, salario);
             if(!contrato){
                 JOptionPane.showMessageDialog(this,
                             "No se ha podido crear el contrato. Verifique la información nuevamente.",
@@ -641,9 +641,9 @@ public class HiringStaffForm extends javax.swing.JFrame {
         int idContrato = Integer.parseInt(ContractsTable.getValueAt(ContractsTable.getSelectedRow(), 0).toString());
         int idEmpleado = Integer.parseInt(ContractsTable.getValueAt(ContractsTable.getSelectedRow(), 1).toString());
         if(Employee.getEmployees() == null || Employee.getEmployees().isEmpty()){
-        Employee.obtenerTodosLosEmpleados();
+        Employee.getAll();
         }
-        Employee empleado = Employee.getInformacionEmpleado(idEmpleado);
+        Employee empleado = Employee.getEmployeeInformation(idEmpleado);
         if (empleado == null){
             JOptionPane.showMessageDialog(this,
                 "No se encontró el empleado con ese ID.",
@@ -651,12 +651,12 @@ public class HiringStaffForm extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-        EmployeeIdTxt.setText(String.valueOf(empleado.getIdEmpleado()));
-        EmployeeNameTxt.setText(empleado.getNombre());
-        EmployeeLastNameTxt.setText(empleado.getApellido());
-        EmployeePositionTxt.setText(empleado.getCargo());
+        EmployeeIdTxt.setText(String.valueOf(empleado.getId()));
+        EmployeeNameTxt.setText(empleado.getName());
+        EmployeeLastNameTxt.setText(empleado.getLastName());
+        EmployeePositionTxt.setText(empleado.getPosition());
         EmployeeSalaryTxt.setText("Q" + empleado.getSalary());
-        switch(empleado.getDepartamento().toLowerCase()){
+        switch(empleado.getDepartment().toLowerCase()){
                 case "dirección ejecutiva" -> DepartmentComboBox.setSelectedIndex(1);
                 case "secretaría" -> DepartmentComboBox.setSelectedIndex(2);
                 case "unidad de auditoría interna" -> DepartmentComboBox.setSelectedIndex(3);
@@ -789,7 +789,7 @@ public class HiringStaffForm extends javax.swing.JFrame {
         
         // Modificar el contrato
         boolean exito;
-        exito = Hiring.modificarContrato(idContrato, idEmpleado, fechaInicio, tipoContrato, duracion, salario);
+        exito = Hiring.updateContract(idContrato, idEmpleado, fechaInicio, tipoContrato, duracion, salario);
         if (exito){
             JOptionPane.showMessageDialog(null, "Contrato modificado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
         } else {

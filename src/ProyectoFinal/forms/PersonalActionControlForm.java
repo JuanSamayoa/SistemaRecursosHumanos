@@ -338,7 +338,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             //Obtener fecha actual en formato dd/mm/yyyy
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Permiso", fechaInicio, "Permiso sin goce de salario con fecha " + fechaInicio + " solicitada la fecha " + fechaActual);
+            boolean exito = PersonalActions.add(idEncontrado, "Permiso", fechaInicio, "Permiso sin goce de salario con fecha " + fechaInicio + " solicitada la fecha " + fechaActual);
             
             if (exito) {
                 JOptionPane.showMessageDialog(this,
@@ -368,7 +368,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
             //Crear un nuevo permiso por fallecimiento de cónyuge
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Permiso", fechaActual, "Permiso por fallecimiento de cónyuge");
+            boolean exito = PersonalActions.add(idEncontrado, "Permiso", fechaActual, "Permiso por fallecimiento de cónyuge");
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -412,7 +412,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear un nuevo permiso por nacimiento de hijos
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Permiso", fechaInicio, "Permiso por nacimiento de hijos solicitada fecha " + fechaActual);
+            boolean exito = PersonalActions.add(idEncontrado, "Permiso", fechaInicio, "Permiso por nacimiento de hijos solicitada fecha " + fechaActual);
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -456,7 +456,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear un nuevo permiso por enfermedad
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Permiso", fechaActual, "Permiso por enfermedad para el dia " + fechaInicio);
+            boolean exito = PersonalActions.add(idEncontrado, "Permiso", fechaActual, "Permiso por enfermedad para el dia " + fechaInicio);
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -487,7 +487,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear un nuevo permiso por fallecimiento de padres
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Permiso", fechaActual, "Permiso por fallecimiento de padres");
+            boolean exito = PersonalActions.add(idEncontrado, "Permiso", fechaActual, "Permiso por fallecimiento de padres");
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -519,7 +519,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear una nueva licencia por maternidad
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Licencia", fechaActual, "Licencia por maternidad");
+            boolean exito = PersonalActions.add(idEncontrado, "Licencia", fechaActual, "Licencia por maternidad");
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -562,7 +562,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear una nueva licencia por examen privado
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Licencia", fechaInicio, "Licencia por examen privado solicitado " + fechaActual);
+            boolean exito = PersonalActions.add(idEncontrado, "Licencia", fechaInicio, "Licencia por examen privado solicitado " + fechaActual);
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -592,7 +592,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear una nueva licencia para EPS
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Licencia", fechaActual, "Licencia para EPS");
+            boolean exito = PersonalActions.add(idEncontrado, "Licencia", fechaActual, "Licencia para EPS");
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -714,7 +714,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear un nuevo permiso por vacaciones
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Vacaciones", fechaActual, "Permiso por vacaciones para el periodo " + fechaInicio + " a " + fechaFin);
+            boolean exito = PersonalActions.add(idEncontrado, "Vacaciones", fechaActual, "Permiso por vacaciones para el periodo " + fechaInicio + " a " + fechaFin);
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -756,7 +756,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             
             //Crear una nueva ausencia
-            boolean exito = PersonalActions.registrarAccion(idEncontrado, "Otros", fechaInicio, "Ausencia solicitada fecha " + fechaActual);
+            boolean exito = PersonalActions.add(idEncontrado, "Otros", fechaInicio, "Ausencia solicitada fecha " + fechaActual);
             
             //Mostrar mensaje de confirmación
             if (exito) {
@@ -779,7 +779,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
 
     private void LoadRecentActionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadRecentActionsButtonActionPerformed
             //Obtener acciones recientes
-            ArrayList<PersonalActions> acciones = PersonalActions.consultarAccionesEmpleado(idEncontrado);
+            ArrayList<PersonalActions> acciones = PersonalActions.getEmployeeActions(idEncontrado);
             
             if(acciones == null || acciones.isEmpty()){
                 JOptionPane.showMessageDialog(this,
@@ -797,7 +797,7 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
 
             //Agregar las acciones al modelo de tabla
             for (PersonalActions accion : acciones) {
-                model.addRow(new Object[]{accion.getIdAccion(), accion.getActionType(), accion.getActionDate(), accion.getDetail()});
+                model.addRow(new Object[]{accion.getId(), accion.getActionType(), accion.getActionDate(), accion.getDetail()});
             }
 
             //Mostrar las acciones en la tabla
@@ -818,11 +818,11 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
             return;
         }
         if(Employee.getEmployees() == null || Employee.getEmployees().isEmpty()){
-        Employee.obtenerTodosLosEmpleados();   
+        Employee.getAll();   
         }
         // Buscar empleado por id
         int idEmpleado = Integer.parseInt(EmployeeIdTxt.getText());
-        Employee empleado = Employee.getInformacionEmpleado(idEmpleado);
+        Employee empleado = Employee.getEmployeeInformation(idEmpleado);
         if (empleado == null){
             JOptionPane.showMessageDialog(this,
                 "No se encontró el empleado con ese ID.",
@@ -830,10 +830,10 @@ public class PersonalActionControlForm extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this,
-                "Empleado encontrado: " + empleado.getNombre()+ " " + empleado.getApellido(),
+                "Empleado encontrado: " + empleado.getName()+ " " + empleado.getLastName(),
                 "Exito",
                 JOptionPane.INFORMATION_MESSAGE);
-            EmployeeNameTxt.setText(empleado.getNombre()+ " " + empleado.getApellido());
+            EmployeeNameTxt.setText(empleado.getName()+ " " + empleado.getLastName());
             idEncontrado = idEmpleado; 
             UnpaidLeaveButton.setEnabled(true);
             SpouseDeathLeaveButton.setEnabled(true);
